@@ -2,7 +2,7 @@
 
 (provide flow)
 
-(require (rename-in "qi.rkt" [flow qi:flow])
+(require (only-in "qi.rkt" define-flow)
          "private/util.rkt")
 
 (define-alias flow define-flow)

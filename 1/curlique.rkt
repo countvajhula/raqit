@@ -3,13 +3,10 @@
 (provide (rename-out [curlique-app #%app]
                      [curlique~> ~>]
                      [curlique~>> ~>>]
-                     [curlique-< -<]
-                     ;; [curlique-switch switch]
-                     )
+                     [curlique-< -<])
          (except-out (all-from-out "qi.rkt")
                      ~>
                      ~>>
-                     ;; (for-space qi switch)
                      flow))
 
 (require (only-in racket [#%app racket:app])
