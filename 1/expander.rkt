@@ -2,17 +2,16 @@
 
 (provide (except-out (all-from-out racket/base)
                      #%module-begin
-                     #%app
-                     syntax)
+                     #%app)
          (rename-out [this-module-begin #%module-begin])
          (all-from-out "app.rkt")
-         (rename-out [raqit-app #%app]
-                     [raqit-syntax syntax])
+         (rename-out [raqit-app #%app])
          (all-from-out "let.rkt")
          (all-from-out "cond.rkt")
          (all-from-out "switch.rkt")
          (all-from-out "def.rkt")
-         (all-from-out "flow.rkt"))
+         (all-from-out "flow.rkt")
+         (all-from-out "macro.rkt"))
 
 (require (rename-in "app.rkt"
                     [#%app raqit-app])
