@@ -3,7 +3,8 @@
 (provide (rename-out [curlique-app #%app]
                      [curlique~> ~>]
                      [curlique~>> ~>>]
-                     [curlique-< -<])
+                     [curlique-< -<]
+                     [curlique-switch switch])
          (except-out (all-from-out qi)
                      ~>
                      ~>>

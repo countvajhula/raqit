@@ -3,10 +3,17 @@
 (provide fun)
 
 (require syntax/parse/define
-         (for-syntax racket/base))
+         (prefix-in my: "let.rkt")
+         (for-syntax racket/base
+                     syntax/parse/class/paren-shape))
 
 (define-syntax-parser fun
-  [(_ name (arg ...) body ...)
-   #'(define (name arg ...) body ...)]
-  [(_ name args body ...)
-   #'(define (name . args) body ...)])
+  [(_ name (~parens pat ...) body ...)
+   #:with (arg ...) (generate-temporaries #'(pat ...))
+   #'(define (name arg ...)
+       (my:let (pat ...) (values arg ...))
+       body ...)]
+  [(_ name pat body ...)
+   #'(define (name . args)
+       (my:let pat args)
+       body ...)])

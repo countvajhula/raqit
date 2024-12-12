@@ -4,9 +4,16 @@
          :)
 
 (require racket/match
-         "private/util.rkt")
+         syntax/parse/define
+         syntax/parse
+         (for-syntax racket/base
+                     syntax/parse/class/paren-shape))
 
 (define-match-expander :
-  (syntax-rules () [(: v vs) (cons v vs)]))
+  (syntax-parser [(: v vs) #'(cons v vs)]))
 
-(define-alias let match-define)
+(define-syntax-parser let
+  [(_ (~parens pat ...) values-expr)
+   #:with values-expr-user (datum->syntax this-syntax #'values-expr)
+   #'(match-define-values (pat ...) values-expr-user)]
+  [(_ pat val) #'(match-define pat val)])

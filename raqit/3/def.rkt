@@ -5,8 +5,14 @@
 (require syntax/parse/define
          (for-syntax racket/base))
 
+;; TODO: behaves differently
+;; than define; doesn't allow
+;; redefining values in REPL
+;; "cannot re-define a constant"
 (define-syntax-parser def
-  [(_ (var ...) values-expr)
-   #:with values-expr-user (datum->syntax this-syntax #'values-expr)
-   #'(define-values (var ...) values-expr-user)]
-  [(_ var val) #'(define var val)])
+  [(_ (var ...) vals)
+   (datum->syntax this-syntax
+     #'(define-values (var ...) vals))]
+  [(_ var val)
+   (datum->syntax this-syntax
+     #'(define var val))])
