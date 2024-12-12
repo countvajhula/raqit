@@ -2,9 +2,7 @@
 
 (require (only-in racket
                   sqr)
-         (for-syntax racket/base)
-         ;; TODO: why do we need this?
-         raqit/2)
+         (for-syntax racket/base))
 
 (let ([a 5]
       [b 3])
