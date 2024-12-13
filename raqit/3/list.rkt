@@ -1,11 +1,14 @@
 #lang racket/base
 
-(provide (rename-out [squarelist-app #%app]))
+(provide (rename-out [squarelist-app #%app])
+         ::)
 
 (require (for-syntax racket/base
                      syntax/parse
                      syntax/parse/class/paren-shape)
          (only-in racket [#%app racket:app]))
+
+(define :: list*)
 
 (define-syntax squarelist-app
   (syntax-parser
