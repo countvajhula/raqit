@@ -6,6 +6,7 @@
          (rename-out [this-module-begin #%module-begin])
          (all-from-out "app.rkt")
          (rename-out [raqit-app #%app])
+         (all-from-out "do.rkt")
          (all-from-out "def.rkt")
          (all-from-out "let.rkt")
          (all-from-out "loop.rkt")
@@ -16,6 +17,7 @@
 
 (require (rename-in "app.rkt"
                     [#%app raqit-app])
+         "do.rkt"
          "def.rkt"
          "let.rkt"
          "loop.rkt"
