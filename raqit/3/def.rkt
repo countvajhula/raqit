@@ -2,17 +2,20 @@
 
 (provide def)
 
-(require syntax/parse/define
-         (for-syntax racket/base))
+(provide def
+         :)
 
-;; TODO: behaves differently
-;; than define; doesn't allow
-;; redefining values in REPL
-;; "cannot re-define a constant"
+(require racket/match
+         syntax/parse/define
+         syntax/parse
+         (for-syntax racket/base
+                     syntax/parse/class/paren-shape))
+
+(define-match-expander :
+  (syntax-parser [(: v ... vs) #'(list* v ... vs)]))
+
 (define-syntax-parser def
-  [(_ (var ...) vals)
-   (datum->syntax this-syntax
-     #'(define-values (var ...) vals))]
-  [(_ var val)
-   (datum->syntax this-syntax
-     #'(define var val))])
+  [(_ (~parens pat ...) values-expr)
+   #:with values-expr-user (datum->syntax this-syntax #'values-expr)
+   #'(match-define-values (pat ...) values-expr-user)]
+  [(_ pat val) #'(match-define pat val)])
