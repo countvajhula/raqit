@@ -17,7 +17,8 @@
          (all-from-out "equivalence.rkt")
          (all-from-out "struct.rkt")
          (all-from-out "generic.rkt")
-         (all-from-out "append.rkt"))
+         (all-from-out "append.rkt")
+         (all-from-out "qi.rkt"))
 
 (require (rename-in "app.rkt"
                     [#%app raqit-app])
@@ -33,6 +34,7 @@
          "struct.rkt"
          "generic.rkt"
          "append.rkt"
+         "qi.rkt"
          syntax/parse/define
          (for-syntax racket/base))
 
