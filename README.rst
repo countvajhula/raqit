@@ -1,7 +1,7 @@
 raqit
 =====
 
-Language experiments in Racket.
+Language experiments in Racket. The blog post `#langs that Fit in Your Head <https://countvajhula.com/2024/12/09/langs-that-fit-in-your-head/>`_ introduces this repo.
 
 Install
 -------
