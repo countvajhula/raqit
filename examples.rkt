@@ -1,4 +1,4 @@
-#lang raqit/6
+#lang raqit
 
 (require (only-in racket
                   sqr)
