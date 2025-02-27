@@ -10,6 +10,8 @@
          racket/set)
 
 (define-syntax-parser #%datum
+  [(-#%datum . #[e ...])
+   (syntax/loc this-syntax (vector-immutable e ...))]
   [(#%datum . hsh)
    #:when (syntax-property #'hsh 'raqit-hash-map)
    #:with (e ...) (replace-context #'hsh (syntax-property #'hsh 'raqit-hash-map))

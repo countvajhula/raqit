@@ -13,7 +13,10 @@
 (struct raqit-pr-thing (v)
   #:property prop:custom-write
   (λ (this out mode)
-    (pr (raqit-pr-thing-v this) #:out out)))
+    (displayln "here")
+    (write (raqit-pr-thing-v this) out)
+    ;; (pr (raqit-pr-thing-v this) #:out out)
+    ))
 
 (define ((make-print-proc orig-print-proc) v)
   (orig-print-proc (raqit-pr-thing v)))

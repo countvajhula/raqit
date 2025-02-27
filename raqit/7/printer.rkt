@@ -24,13 +24,16 @@
     [(set? v)
      (pr1-list/open-close (set->list v) "#{" "}" out pr1)]
     [(char? v)
-     (write-string (substring (~s v) 1) out)]
+     (write-string (substring (~s v) 1) out)
+     (void)]
     [(or (symbol? v) (number? v) (string? v))
-     (write v out)]
+     (write v out)
+     (void)]
     [else
      (write-string "#<rkt " out)
      (print v out)
-     (write-string ">" out)]))
+     (write-string ">" out)
+     (void)]))
 
 ;; pr1-list/open-close :
 ;; (Listof Any) String String Output-Port (Any #:out Output-Port -> Nil) -> Nil
@@ -38,11 +41,13 @@
   (match lst
     ['()
      (write-string open out)
-     (write-string close out)]
+     (write-string close out)
+     (void)]
     [(cons fst rst)
      (write-string open out)
      (rec-pr fst #:out out)
      (for ([x (in-list rst)])
        (write-char #\space out)
        (rec-pr x #:out out))
-     (write-string close out)]))
+     (write-string close out)
+     (void)]))
