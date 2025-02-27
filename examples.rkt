@@ -1,8 +1,8 @@
 #lang raqit
 
-(require (only-in racket
-                  sqr)
-         (for-syntax racket/base))
+(use (only-in racket
+              sqr)
+     (for-syntax racket/base))
 
 (behavior stack
   (push stack element)
