@@ -1,44 +1,25 @@
-#lang raqit/3
+#lang raqit
 
 (require (only-in racket
                   sqr)
          (for-syntax racket/base))
 
-(def a 3)
+(let ([a 5]
+      [b 3])
+  (+ a b))
 
-(let ([a 3])
-  a)
-
-(def (b c) (values 1 2))
-
-(let ([[: x xs] [1 2 3]])
-  (displayln (+ a b c x)))
-
-(def w 3)
-(cond [(< w 0) 'negative]
-      [(> w 0) 'positive]
-      [else 'zero])
-
-(loop go (a 5)
-  (when (> a 0)
-    (displayln a)
-    (go (sub1 a))))
-
-(loop go ([[: x xs] [1 2 3 4 5]]
-          [a 5])
-  (displayln x)
-  (unless (null? xs)
-    (go xs a)))
+(let ([v 3])
+  (cond [(< v 0) 'negative]
+        [(> v 0) 'positive]
+        [else 'zero]))
 
 (fun do-something (v)
-  (def w (abs v))
-  w)
+  (let ([v (abs v)])
+    v))
 
-(fun do-something2 (abc [: x xs])
-  (displayln abc)
-  (displayln x))
-
-(do-something2 "hi" [1 2 3])
+(fun do-something2 (v)
+  (def v (abs v))
+  v)
 
 (flow check-number
   (switch
@@ -50,9 +31,6 @@
 
 (def v -3)
 (map {~> sqr add1} [1 2 (abs v) 4 5])
-(map {switch [positive? add1] [else sub1]} [1 -2 (abs v) -4 5])
-
-(~> (3) sqr add1)
 
 (macro (where expr bindings)
   #'(let bindings expr))
@@ -69,7 +47,7 @@
   [(_ name) #'(displayln (format "hello ~a" name))]
   [(_) #'(displayln (format "hello ~a" "world"))])
 
-(hello "sid")
+(hello "friend")
 
 (class fish% (object%)
   (init size)
@@ -86,3 +64,4 @@
   (new fish% [size 10]))
 
 (send charlie get-size)
+

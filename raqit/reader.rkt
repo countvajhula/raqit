@@ -15,6 +15,6 @@
                           (in-port (λ (v)
                                      (read-syntax path v))
                                    port)))
-  (define module-datum `(module this-mod raqit/4/expander
+  (define module-datum `(module this-mod raqit/expander
                           ,@src-stx-datums))
   (datum->syntax #f module-datum))
