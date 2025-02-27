@@ -1,4 +1,4 @@
-#lang raqit/6
+#lang raqit
 
 (require (only-in racket
                   sqr)
@@ -17,9 +17,6 @@
      'hi)
    (fun top (this)
      'hi)])
-
-(fun key-sum (a b c #:key k)
-  (~> (a b c) (>< k) +))
 
 (def a 3)
 
@@ -66,8 +63,8 @@
 (map check-number [1 -2 0])
 
 (def v -3)
-(map (~> sqr add1) [1 2 (abs v) 4 5])
-(map (switch [positive? add1] [else sub1]) [1 -2 (abs v) -4 5])
+(map {~> sqr add1} [1 2 (abs v) 4 5])
+(map {switch [positive? add1] [else sub1]} [1 -2 (abs v) -4 5])
 
 (~> (3) sqr add1)
 
@@ -88,8 +85,8 @@
 
 (hello "sid")
 
-(flow-macro (rev f g)
-  #'(~> g f))
+(macro (rev f g)
+  #'{~> g f})
 
 (map (rev add1 sqr) [1 2 3])
 
