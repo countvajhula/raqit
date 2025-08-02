@@ -1,8 +1,8 @@
 #lang racket/base
 
-(provide ==)
+(provide =)
 
-(define (== #:key [key #f] a b)
+(define (= #:key [key #f] a b)
   (if key
-      (== (key a) (key b))
+      (= (key a) (key b))
       (equal? a b)))

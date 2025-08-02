@@ -34,7 +34,7 @@
 
   (displayln (+ a b c x)))
 
-(== #:key string-upcase "abc" "ABC")
+(= #:key string-upcase "abc" "ABC")
 
 (def w 3)
 
