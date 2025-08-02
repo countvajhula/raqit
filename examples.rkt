@@ -4,7 +4,7 @@
               sqr)
      (for-syntax racket/base))
 
-(behavior stack
+(protocol stack
   (push stack element)
   (pop stack)
   (top stack))

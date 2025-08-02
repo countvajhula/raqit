@@ -12,7 +12,7 @@
          racket/vector
          (prefix-in b: racket/base))
 
-(behavior appendable
+(protocol appendable
   (append appendable other)
   (identity appendable)
   #:defaults ([procedure?

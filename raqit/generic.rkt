@@ -1,8 +1,8 @@
 #lang racket/base
 
-(provide behavior)
+(provide protocol)
 
 (require racket/generic
          "private/util.rkt")
 
-(define-alias behavior define-generics)
+(define-alias protocol define-generics)
