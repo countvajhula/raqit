@@ -1,1 +1,12 @@
+# vim noise
+*~
+*.sw?
 compiled
+doc
+
+# docs output
+*.html
+*.css
+*.js
+MathJax
+katex
