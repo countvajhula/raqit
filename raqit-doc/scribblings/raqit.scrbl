@@ -216,6 +216,14 @@ Likewise, all other list operations in @racket[qi/list] are available in embedde
    }
 }
 
+@defform[(: v ... vs)]{
+  A match expander for @racket[::]. TODO: ideally we'd want both to have the same name, but they currently collide if both are named @racket[:].
+
+  @codeblock{
+    (def [: x xs] [1 2 3])
+   }
+}
+
 @section{Macros}
 
 @deftogether[(
