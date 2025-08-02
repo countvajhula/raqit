@@ -25,7 +25,7 @@ help:
 # Primarily for use by CI.
 # Installs dependencies as well as linking this as a package.
 install:
-	raco pkg install --deps search-auto --link $(PWD)/$(PACKAGE-NAME)
+	raco pkg install --deps search-auto --link $(PWD)/$(PACKAGE-NAME) $(PWD)/$(PACKAGE-NAME)-doc
 
 remove:
 	raco pkg remove $(PACKAGE-NAME)
@@ -34,6 +34,15 @@ remove:
 # Build libraries from source.
 build:
 	raco setup --no-docs --pkgs $(PACKAGE-NAME)
+
+# Primarily for day-to-day dev.
+# Build docs (if any).
+build-docs:
+	raco setup --no-launcher --no-foreign-libs --no-info-domain --no-pkg-deps \
+	--no-install --no-post-install --pkgs $(PACKAGE-NAME)-doc
+
+docs:
+	raco docs $(PACKAGE-NAME)
 
 # Note: Each collection's info.rkt can say what to clean, for example
 # (define clean '("compiled" "doc" "doc/<collect>")) to clean
