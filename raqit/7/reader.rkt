@@ -47,9 +47,10 @@
 (define (wrap-reader rd)
   (lambda args
     (define intro (make-intro))
+    (displayln "I've just defined intro")
     (parameterize ([current-readtable (make-raqit-readtable)]
                    [current-syntax-introducer intro])
-      (define stx (apply rd args))
+      (define stx (apply rd args)) ; parametrized here
       (intro stx))))
 
 (define this-read (wrap-reader read))
