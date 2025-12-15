@@ -8,6 +8,8 @@
          (all-from-out "app.rkt")
          (rename-out [raqit-app #%app])
          (rename-out [raqit-datum #%datum])
+         (all-from-out "hash.rkt")
+         (all-from-out "set.rkt")
          (all-from-out "do.rkt")
          (all-from-out "def.rkt")
          (all-from-out "let.rkt")
@@ -27,6 +29,8 @@
                     [#%app raqit-app])
          (rename-in "datum.rkt"
                     [#%datum raqit-datum])
+         "hash.rkt"
+         "set.rkt"
          "do.rkt"
          "def.rkt"
          "let.rkt"

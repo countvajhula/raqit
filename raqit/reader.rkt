@@ -35,26 +35,31 @@
     lst-stx
     lst-stx))
 
+(define (read-nested-syntax-as-list src in ch)
+  (parameterize ([read-accept-dot #f])
+    (read-syntax/recursive src
+                           in
+                           ch
+                           (make-readtable (current-readtable)
+                                           ch
+                                           #\{
+                                           #f))))
+
 (define (hash-proc ch in src ln col pos)
   (define lst-stx
-    (parameterize ([read-accept-dot #f])
-      (read-syntax/recursive src in ch (make-readtable (current-readtable) ch #\{ #f))))
-  (define lst (syntax->list lst-stx))
-  (unless (even? (length lst))
-    (raise-read-error "hash map literal must contain an even number of forms"
-                      src ln col pos (syntax-span lst-stx)))
-  (datum->syntax lst-stx (for/hash ([(k v) (in-hash (apply hash lst))]) ; need syntax property to
-                           (values (syntax->datum k) v))                ; preserve order of evaluation
-                 lst-stx                                                ; and source locations of keys
-                 (syntax-property lst-stx 'raqit-hash-map lst-stx)))
+    (read-nested-syntax-as-list src in ch))
+  (datum->syntax lst-stx
+    (cons '#%hash (syntax->list lst-stx))
+    lst-stx
+    lst-stx))
 
 (define (set-proc ch in src ln col pos)
   (define lst-stx
-    (parameterize ([read-accept-dot #f])
-      (read-syntax/recursive src in ch (make-readtable (current-readtable) ch #\{ #f))))
-  (datum->syntax lst-stx (list->set (syntax->datum lst-stx))
-                 lst-stx
-                 (syntax-property lst-stx 'raqit-set lst-stx)))
+    (read-nested-syntax-as-list src in ch))
+  (datum->syntax lst-stx
+    (cons '#%set (syntax->list lst-stx))
+    lst-stx
+    lst-stx))
 
 (define current-syntax-introducer (make-parameter (λ (x) x)))
 
