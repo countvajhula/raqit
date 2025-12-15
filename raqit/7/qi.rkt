@@ -15,7 +15,8 @@
                      [~list-ref list-ref]
                      [~length length]
                      [~empty? empty?]
-                     [~null? null?])
+                     [~null? null?]
+                     [flow #%flow])
          flow-macro)
 
 (require qi/list

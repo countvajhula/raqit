@@ -1,7 +1,6 @@
 #lang racket/base
 
 (provide #%app
-         (all-from-out "curlique.rkt")
          (all-from-out "list.rkt"))
 
 (require syntax/parse/define
@@ -9,8 +8,6 @@
                      racket/base)
          (only-in racket
                   [#%app racket:app])
-         (rename-in "curlique.rkt"
-                    [#%app curlique:app])
          (rename-in "list.rkt"
                     [#%app list:app]))
 
@@ -19,9 +16,6 @@
     [(~brackets _ x ...)
      (syntax/loc this-syntax
        (list:app x ...))]
-    [(~braces _ x ...)
-     (syntax/loc this-syntax
-       (curlique:app x ...))]
     [(_ x ...)
      (syntax/loc this-syntax
        (racket:app x ...))]))

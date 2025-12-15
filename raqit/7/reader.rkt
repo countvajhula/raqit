@@ -16,7 +16,23 @@
 (define (make-raqit-readtable)
   (make-readtable (current-readtable)
                   #\{ 'terminating-macro hash-proc
-                  #\{ 'dispatch-macro set-proc))
+                  #\{ 'dispatch-macro set-proc
+                  #\☯ 'terminating-macro flow-proc))
+
+(define (flow-proc ch in src ln col pos)
+  (unless (char=? (read-char in) #\{)
+    (raise-read-error "expected '{' after '☯'" src ln col pos 1))
+
+  (define lst-stx
+    (parameterize ([read-accept-dot #f])
+      (read-syntax/recursive src in #\{
+                             (make-readtable (current-readtable)
+                                             #\{ #\{ #f))))
+
+  (datum->syntax lst-stx
+    `(#%flow ,(syntax->list lst-stx))
+    lst-stx
+    lst-stx))
 
 (define (hash-proc ch in src ln col pos)
   (define lst-stx
