@@ -46,6 +46,11 @@ build-docs:
 docs:
 	raco docs $(PACKAGE-NAME)
 
+# Primarily for CI, for building backup docs that could be used in case
+# the main docs at docs.racket-lang.org become unavailable.
+build-standalone-docs:
+	scribble +m --redirect-main http://pkg-build.racket-lang.org/doc/ --htmls --dest ./docs ./$(PACKAGE-NAME)-doc/scribblings/$(PACKAGE-NAME).scrbl
+
 # Note: Each collection's info.rkt can say what to clean, for example
 # (define clean '("compiled" "doc" "doc/<collect>")) to clean
 # generated docs, too.
