@@ -98,10 +98,10 @@
 
 (hello "sid")
 
-(flow-macro (rev f g)
+(flow-macro (<~ f g)
   #'(~> g f))
 
-(map ☯(rev add1 sqr) [1 2 3])
+(map ☯(<~ add1 sqr) [1 2 3])
 
 (class fish% (object%)
   (init size)

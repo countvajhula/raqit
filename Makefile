@@ -15,6 +15,8 @@ help:
 	@echo "install - install package along with dependencies"
 	@echo "remove - remove package"
 	@echo "build - Compile libraries"
+	@echo "build-docs - Build docs"
+	@echo "docs - view docs in a browser"
 	@echo "clean - remove all build artifacts"
 	@echo "check-deps - check dependencies"
 	@echo "test - run tests"

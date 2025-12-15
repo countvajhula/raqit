@@ -19,6 +19,29 @@ Language experiments with Racket and Qi.
 
 @section{Basic Syntax}
 
+@subsection{Delimiters}
+@racket[(...)] and @racket[[...]] are generally interchangeable in the core syntax (like in Racket). They have different meanings when used in expressions, as described below.
+
+@subsection{Expressions}
+
+@racket[(...)] is ordinary function application.
+
+@racket[[...]] is an unquoted list.
+
+@subsection{Data Literals}
+
+All of these literals are @emph{unquoted}, meaning that the arguments are evaluated prior to construction of the datatype.
+
+@racket[[...]] is a list.
+
+@racket[#(...)] is an immutable vector (the delimiters here could also be @racket[#[]]).
+
+@racket[#{...}] is a set.
+
+@racket[{...}] is a hash.
+
+@racket[☯(...)] is a Qi flow.
+
 @subsection{Sequencing}
 
 @defform[(do e ...)]{
@@ -38,14 +61,6 @@ Language experiments with Racket and Qi.
     (~> (3) sqr add1)
    }
 }
-
-@subsection{Application Syntax}
-
-@racket[(...)] is an ordinary function application (and ordinary Lisp syntax, outside of application contexts).
-
-@racket[[...]] is an unquoted list.
-
-@racket[{...}] is a Qi flow.
 
 @section{Relations}
 
@@ -94,27 +109,32 @@ Language experiments with Racket and Qi.
 
 @section{Lists}
 
-@defproc[(:: [v any/c] ... [vs list?])
+@defproc[(: [v any/c] ... [vs list?])
          list?]{
-  Construct a list. Alias for Racket's @racket[list*].
+  When used as an expression, construct a list; when used as a pattern, match a list. Alias for Racket's @racket[list*] both as an expression and as a pattern.
 
   @codeblock{
-    (:: 1 [2 3])
-    (:: 1 2 3 [4 5 6])
+    (: 1 [2 3])
+    (: 1 2 3 [4 5 6])
+    (def [: x xs] [1 2 3])
   }
 }
 
 @defproc[(map [f (-> any/c any/c)] [vs list?])
          list?]{
-  This is an embedding of @racket[map] from @racket[qi/list].
+  An alias for Racket's @racket[map].
 
   @codeblock{
-    (map (~> sqr add1) [1 2 3 4 5])
-    (map (switch [positive? add1] [else sub1]) [1 -2 3 -4 5])
+    (map ☯(~> sqr add1) [1 2 3 4 5])
+    (map ☯(switch [positive? add1] [else sub1]) [1 -2 3 -4 5])
   }
 }
 
-Likewise, all other list operations in @racket[qi/list] are available in embedded form.
+Likewise, many other standard list operations in @racket[racket/list] are available. However, for any nontrivial list processing, it's advisable to use Qi flows, as they use the operations from @racket[qi/list] which are more efficient (and more clear).
+
+@codeblock{
+  (~> ([1 2 3 4 5]) (filter odd?) (map sqr) (foldl +))
+}
 
 @section{User-defined Datatypes}
 
@@ -126,6 +146,10 @@ Likewise, all other list operations in @racket[qi/list] are available in embedde
 
 @defform[(use stx ...)]{
   Alias for Racket's @racket[require].
+}
+
+@defform[(offer stx ...)]{
+  Alias for Racket's @racket[provide].
 }
 
 @section{Loops}
@@ -159,7 +183,7 @@ Likewise, all other list operations in @racket[qi/list] are available in embedde
       body)
    }
 
-  … where @racket[modifier] is one of the recognized method modifiers like @racket[public], @racket[augride], and so on.
+  … where @racket[modifier] is one of the recognized @seclink["clmethoddefs" #:doc '(lib "scribblings/reference/reference.scrbl")]{method modifiers} like @racket[public], @racket[augride], and so on.
 }
 
 @section{Definitions}
@@ -216,14 +240,6 @@ Likewise, all other list operations in @racket[qi/list] are available in embedde
    }
 }
 
-@defform[(: v ... vs)]{
-  A match expander for @racket[::]. TODO: ideally we'd want both to have the same name, but they currently collide if both are named @racket[:].
-
-  @codeblock{
-    (def [: x xs] [1 2 3])
-   }
-}
-
 @section{Macros}
 
 @deftogether[(
@@ -249,9 +265,9 @@ Likewise, all other list operations in @racket[qi/list] are available in embedde
   Identical to Qi's @racket[define-qi-syntax-rule] or @racket[define-qi-syntax-parser], except that it expects an explicit syntax template in both cases.
 
   @codeblock{
-    (flow-macro (rev f g)
+    (flow-macro (<~ f g)
       #'(~> g f))
 
-    (map (rev add1 sqr) [1 2 3])
+    (map ☯(<~ add1 sqr) [1 2 3])
    }
 }
