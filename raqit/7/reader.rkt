@@ -20,14 +20,15 @@
                   #\☯ 'terminating-macro flow-proc))
 
 (define (flow-proc ch in src ln col pos)
-  (unless (char=? (read-char in) #\{)
-    (raise-read-error "expected '{' after '☯'" src ln col pos 1))
+
+  (define next-char (read-char in))
+
+  (unless (memv next-char '(#\( #\[))
+    (raise-read-error "expected '(' or '[' after '☯'" src ln col pos 1))
 
   (define lst-stx
     (parameterize ([read-accept-dot #f])
-      (read-syntax/recursive src in #\{
-                             (make-readtable (current-readtable)
-                                             #\{ #\{ #f))))
+      (read-syntax/recursive src in next-char)))
 
   (datum->syntax lst-stx
     `(#%flow ,(syntax->list lst-stx))

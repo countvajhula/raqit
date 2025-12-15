@@ -1,6 +1,8 @@
 #lang racket/base
 
 (provide (all-from-out qi/list)
+         (except-out (all-from-out qi)
+                     flow)
          (rename-out [~map map]
                      [~filter filter]
                      [~filter-map filter-map]
