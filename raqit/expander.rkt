@@ -2,10 +2,12 @@
 
 (provide (except-out (all-from-out racket/base)
                      #%module-begin
-                     #%app)
+                     #%app
+                     #%datum)
          (rename-out [this-module-begin #%module-begin])
          (all-from-out "app.rkt")
          (rename-out [raqit-app #%app])
+         (rename-out [raqit-datum #%datum])
          (all-from-out "do.rkt")
          (all-from-out "def.rkt")
          (all-from-out "let.rkt")
@@ -23,6 +25,8 @@
 
 (require (rename-in "app.rkt"
                     [#%app raqit-app])
+         (rename-in "datum.rkt"
+                    [#%datum raqit-datum])
          "do.rkt"
          "def.rkt"
          "let.rkt"
