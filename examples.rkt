@@ -53,7 +53,7 @@
 (fun eqwal (x y #:key k)
   (equal? (k x) (k y)))
 
-(eqwal 3 5 #:key {(remainder 3)})
+(eqwal 3 5 #:key ☯(remainder 3))
 
 (~> ([1 2 3]) (esc (λ (xs) (def [: y ys] xs) y)))
 
@@ -66,8 +66,10 @@
 (map check-number [1 -2 0])
 
 (def v -3)
-(map (~> sqr add1) [1 2 (abs v) 4 5])
-(map (switch [positive? add1] [else sub1]) [1 -2 (abs v) -4 5])
+(map ☯(~> sqr add1) [1 2 (abs v) 4 5])
+(map ☯(switch [positive? add1]
+              [else sub1])
+     [1 -2 (abs v) -4 5])
 
 (~> (3) sqr add1)
 
@@ -91,7 +93,7 @@
 (flow-macro (rev f g)
   #'(~> g f))
 
-(map (rev add1 sqr) [1 2 3])
+(map ☯(rev add1 sqr) [1 2 3])
 
 (class fish% (object%)
   (init size)
