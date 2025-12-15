@@ -36,15 +36,23 @@
 
 (= #:key string-upcase "abc" "ABC")
 
-(def w 3)
-
 (struct dog (name age))
 
 (dog "fido" 5)
 
+(def w 3)
+
 (cond [(< w 0) 'negative]
       [(> w 0) 'positive]
       [else 'zero])
+
+(def [: 1 2 vs] [: 1 2 [3 4 5]])
+
+(def #{x y} #{1 2})
+
+(def {'a _ 'b val 'c _} {'a 1 'b 2 'c 3})
+
+[vs x y val]
 
 (fun do-something (v)
   (def w (abs v))
