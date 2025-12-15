@@ -3,7 +3,16 @@
 (provide #%hash)
 
 (require syntax/parse/define
+         racket/match
          (for-syntax racket/base))
 
-(define-syntax-parse-rule (#%hash v ...)
-  (hash v ...))
+(define-match-expander #%hash
+  ;; use in pattern-matching context
+  (syntax-parser
+    [(_ v ...)
+     #'(hash v ...)])
+
+  ;; use in expression context
+  (syntax-parser
+    [(_ v ...)
+     #'(hash v ...)]))
