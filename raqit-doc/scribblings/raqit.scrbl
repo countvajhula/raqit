@@ -15,7 +15,11 @@
 
 @defmodule[raqit]
 
-Language experiments with Racket and Qi.
+A general purpose Scheme-like language designed for clarity and economy of expression, with the goal of weaving together intuitive, expressive DSLs for major language facilities, with an emphasis on Racket and @seclink["top" #:indirect? #t #:doc '(lib "qi/scribblings/qi.scrbl")]{Qi} and functional programming.
+
+@bold{Note}: Raqit is a placeholder name for a language being developed as a @hyperlink["https://github.com/countvajhula/raqit"]{series of community experiments} on DSLs, to be synthesized into a cohesive language that @hyperlink["https://countvajhula.com/2024/12/09/langs-that-fit-in-your-head/"]{"fits in your head."} Join in on the fun and do your own experiments! The @hyperlink["https://github.com/countvajhula/raqit/blob/main/README.rst"]{project README} describes how.
+
+These docs describe the latest incarnation of the language, representing a (one) synthesis of the best of these experiments. What do you think of it? What would you change?
 
 @section{Basic Syntax}
 
