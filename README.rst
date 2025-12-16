@@ -30,7 +30,7 @@ Note that if you check out a different branch in the ``raqit`` repo, your source
 
 .. code-block:: racket
 
-  #lang raqit  ;; lang/6
+  #lang raqit  ; lang/6
 
 What Does the Main Branch Contain?
 ----------------------------------
@@ -50,7 +50,7 @@ Now, if you'd like to modify some existing feature of the language, just edit th
 
 Remember to update ``examples.rkt`` for your new language to reflect your changes and also document your new feature in ``raqit-doc/scribblings/raqit.scrbl``.
 
-If you'd like to customize syntax at the reader level (e.g., for handling special symbols, delimiters, prefixes or suffixes that don't follow the usual Lisp (symex-oriented) syntax) rather than at the expander stage (i.e., macros), then refer to ``reader.rkt`` which contains the language `*readtable* <https://docs.racket-lang.org/guide/hash-reader.html#(part._readtable)>`_, including some existing extensions that you could follow as examples.
+If you'd like to customize syntax at the reader level (e.g., for handling special symbols, delimiters, prefixes or suffixes that don't follow the usual Lisp (symex-oriented) syntax) rather than at the expander stage (i.e., macros), then refer to ``reader.rkt`` which contains the language `readtable <https://docs.racket-lang.org/guide/hash-reader.html#(part._readtable)>`_, including some existing extensions that you could follow as examples.
 
 Non-Ownership
 =============
