@@ -10,7 +10,8 @@
 ;; pr : Any ... [#:out Output-Port] -> Nil
 ;; analogous to write in racket
 (define (pr #:out [out (current-output-port)] . args)
-  (pr1-list/open-close args "" "" out pr1))
+  (pr1-list/open-close args "" "" out pr1)
+  (newline))
 
 ;; pr1 : Any #:out Output-Port -> Nil
 (define (pr1 v #:out out)
@@ -30,9 +31,7 @@
      (write v out)
      (void)]
     [else
-     (write-string "#<rkt " out)
      (print v out)
-     (write-string ">" out)
      (void)]))
 
 ;; pr1-list/open-close :
