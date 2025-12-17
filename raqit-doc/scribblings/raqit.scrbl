@@ -244,6 +244,16 @@ Likewise, many other standard list operations in @racket[racket/list] are availa
    }
 }
 
+@section{Patterns}
+
+Many of Raqit's binding forms, including @racket[def], @racket[let] and @racket[loop] bind by @emph{matching patterns}. In addition to @seclink["match" #:doc '(lib "scribblings/reference/reference.scrbl")]{Racket's patterns}, Raqit defines a few of its own.
+
+@racket[[: v ...]] matches and destructures lists. It's equivalent to Racket's @racket[list*] pattern.
+
+@racket[#{e ...}] matches and destructures sets. To match subsets, use the wildcard sequence pattern, e.g., @racket[#{e₁ e₂ _ ...}].
+
+@racket[{k v ...}] matches and destructures hashes. To match only some keys (the most common case), use the wildcard sequence pattern, e.g., @racket[{k v _ ...}]. Note that the wildcard sequence pattern here @emph{must} come at the end.
+
 @section{Macros}
 
 @deftogether[(
