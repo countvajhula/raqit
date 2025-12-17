@@ -63,4 +63,4 @@ clean:
 check-deps:
 	raco setup --no-docs $(DEPS-FLAGS) $(PACKAGE-NAME)
 
-.PHONY:	help install remove build clean check-deps
+.PHONY:	help install remove build build-docs docs build-standalone-docs clean check-deps
