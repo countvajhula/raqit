@@ -19,32 +19,35 @@
                   #\{ 'dispatch-macro set-proc
                   #\☯ 'terminating-macro flow-proc))
 
+;; Flow reader
+;; Reads the immediate next datum and wraps it in #%flow.
+;; e.g. ☯id    -> (#%flow id)
+;;      ☯(a b) -> (#%flow (a b))
 (define (flow-proc ch in src ln col pos)
+  (define next-stx (read-syntax src in))
+  (when (eof-object? next-stx)
+    (raise-read-error "expected value after '☯'" src ln col pos 1))
 
-  (define next-char (read-char in))
-
-  (unless (memv next-char '(#\( #\[))
-    (raise-read-error "expected '(' or '[' after '☯'" src ln col pos 1))
-
-  (define lst-stx
-    (parameterize ([read-accept-dot #f])
-      (read-syntax/recursive src in next-char)))
-
-  (datum->syntax lst-stx
-    `(#%flow ,(syntax->list lst-stx))
-    lst-stx
-    lst-stx))
+  (datum->syntax next-stx
+    `(#%flow ,next-stx)
+    next-stx
+    next-stx))
 
 (define (read-nested-syntax-as-list src in ch)
   (parameterize ([read-accept-dot #f])
     (read-syntax/recursive src
                            in
                            ch
+                           ;; Revert 'ch' back to its standard behavior for this recursive read.
+                           ;; E.g., while parsing a hash literal {k v ...}, this indicates that
+                           ;; { should be handled as { is ordinarily handled, viz., as an
+                           ;; opening list delimiter. Thus, we read this syntax as a list and
+                           ;; then wrap it as a hash in the outer reading context.
                            (make-readtable (current-readtable)
-                                           ch
-                                           #\{
-                                           #f))))
+                                           ch ch #f))))
 
+;; Hash reader
+;; Reads { ... } as (#%hash ...)
 (define (hash-proc ch in src ln col pos)
   (define lst-stx
     (read-nested-syntax-as-list src in ch))
@@ -53,6 +56,8 @@
     lst-stx
     lst-stx))
 
+;; Set reader
+;; Reads #{ ... } as (#%set ...)
 (define (set-proc ch in src ln col pos)
   (define lst-stx
     (read-nested-syntax-as-list src in ch))
