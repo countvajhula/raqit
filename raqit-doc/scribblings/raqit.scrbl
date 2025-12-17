@@ -257,30 +257,26 @@ Many of Raqit's binding forms, including @racket[def], @racket[let] and @racket[
 @section{Macros}
 
 @deftogether[(
-  @defform[(macro (name pattern ...) template)]
-  @defform[#:link-target? #f (macro name parse-option ... [pattern template] ...)]
+  @defform[(macro (name pattern ...) directive ... template)]
+  @defform[#:link-target? #f (macro name parse-option ... [pattern directive ... template] ...)]
   )]{
-  Identical to either Racket's @racket[define-syntax-parse-rule] or @racket[define-syntax-parser], except that it expects an explicit syntax template in both cases.
+  A unified way to define macros, both for the host language as well as native DSLs.
+
+  Ordinarily, this defines host language macros, and is identical to either Racket's @racket[define-syntax-parse-rule] or @racket[define-syntax-parser], depending on whether the simple rewrite pattern or the dispatch pattern is used.
 
   @codeblock{
     (macro (where expr bindings)
-      #'(def bindings expr))
+      (def bindings expr))
     (macro hello
       [(_ name) #'(displayln (format "hello ~a" name))]
       [(_) #'(displayln (format "hello ~a" "world"))])
    }
-}
 
-
-@deftogether[(
-  @defform[(flow-macro (name pattern ...) template)]
-  @defform[#:link-target? #f (flow-macro name parse-option ... [pattern template] ...)]
-  )]{
-  Identical to Qi's @racket[define-qi-syntax-rule] or @racket[define-qi-syntax-parser], except that it expects an explicit syntax template in both cases.
+  If the pattern is prefixed with ☯, this defines @emph{Qi} macros, and is identical to Qi's @racket[define-qi-syntax-rule] or @racket[define-qi-syntax-parser], depending on the pattern used.
 
   @codeblock{
-    (flow-macro (<~ f g)
-      #'(~> g f))
+    (macro ☯(<~ f g)
+      (~> g f))
 
     (map ☯(<~ add1 sqr) [1 2 3])
    }
