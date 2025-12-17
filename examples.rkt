@@ -82,7 +82,7 @@
 (~> (3) sqr add1)
 
 (macro (where expr bindings)
-  #'(def bindings expr))
+  (def bindings expr))
 
 (where (+ v 3)
        abc)
@@ -98,8 +98,8 @@
 
 (hello "sid")
 
-(flow-macro (<~ f g)
-  #'(~> g f))
+(macro ☯(<~ f g)
+  (~> g f))
 
 (map ☯(<~ add1 sqr) [1 2 3])
 
