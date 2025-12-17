@@ -9,9 +9,13 @@
 (define-match-expander #%hash
   ;; use in pattern-matching context
   (syntax-parser
+    ;; if the pattern ends with `_ ...`
+    ;; use subset matching
+    [(_ k v ... (~datum _) (~datum ...))
+     #'(hash k v ... #:open)]
+    ;; default to strict matching
     [(_ v ...)
-     ;; Use #:open to allow extra keys (subset matching)
-     #'(hash v ... #:open)])
+     #'(hash v ...)])
 
   ;; use in expression context
   (syntax-parser

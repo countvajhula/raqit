@@ -12,8 +12,7 @@
   ;; use in pattern-matching context (subset matching)
   (syntax-parser
     [(_ v ...)
-     ;; The `_ ...` allows extra elements to exist in the set
-     #'(? set? (app set->list (list-no-order v ... _ (... ...))))])
+     #'(? set? (app set->list (list-no-order v ...)))])
   ;; use in expression context
   (syntax-parser
     [(_ v ...)
