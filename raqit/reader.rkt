@@ -3,7 +3,8 @@
 (require (only-in racket/sequence sequence->list)
          (only-in racket/set list->set)
          "reader-no-wrap.rkt"
-         syntax/readerr)
+         syntax/readerr
+         (prefix-in base: racket/base))
 
 (provide
  (rename-out [this-read-syntax read-syntax]
@@ -24,7 +25,7 @@
 ;; e.g. ☯id    -> (#%flow id)
 ;;      ☯(a b) -> (#%flow (a b))
 (define (flow-proc ch in src ln col pos)
-  (define next-stx (read-syntax src in))
+  (define next-stx (base:read-syntax src in))
   (when (eof-object? next-stx)
     (raise-read-error "expected value after '☯'" src ln col pos 1))
 
