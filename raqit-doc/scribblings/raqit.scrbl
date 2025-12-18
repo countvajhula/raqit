@@ -66,7 +66,7 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
    }
 }
 
-@section{Relations}
+@section{Relations and Operators}
 
 @defproc[(= [#:key key (-> any/c any/c) #f] [v any/c] ...)
          boolean?]{
@@ -104,7 +104,46 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
             ...)
          boolean?]
   )]{
-  @emph{Generic} order relations supporting any orderable type. Identical to @racket[<], @racket[<=], @racket[>=], @racket[>], @racket[min], and @racket[max] from @seclink["Order_Relations" #:indirect? #t #:doc '(lib "relation/scribblings/relation.scrbl")]{@racket[relation/order]}.
+  @emph{Generic} order relations supporting any orderable type, and extensible via @racket[(implements orderable ...)]. Identical to @racket[<], @racket[<=], @racket[>=], @racket[>], @racket[min], and @racket[max] from @seclink["Order_Relations" #:indirect? #t #:doc '(lib "relation/scribblings/relation.scrbl")]{@racket[relation/order]}.
+}
+
+@defproc[(~ [v appendable?]
+            ...)
+         appendable?]{
+ Append the provided values together, using the type's implementation of the @racket[appendable] protocol. The special value @racket[ID] serves as the generic identity value when the type of the operands is not known. In particular, this value is the result when no operands are provided.
+
+ Identical to @racket[~] from @seclink["Composing_Operations" #:indirect? #t #:doc '(lib "relation/scribblings/relation.scrbl")]{@racket[relation/composition]}
+
+@codeblock{
+  (~ [1 2 3] [4 5 6] [7 8 9])
+  (~ "abc" "def" "ghijk")
+ }
+}
+
+@section{Lists}
+
+Raqit includes @racket[racket/base], so many standard list-processing utilties are available.
+
+@codeblock{
+    (map ☯(~> sqr add1) [1 2 3 4 5])
+    (map ☯(switch [positive? add1] [else sub1]) [1 -2 3 -4 5])
+}
+
+However, for any nontrivial list processing, it's advisable to use Qi flows, as they use the operations from @racket[qi/list] which are more efficient (and more clear).
+
+@codeblock{
+  (~> ([1 2 3 4 5]) (filter odd?) (map sqr) (foldl + 0))
+}
+
+@defproc[(: [v any/c] ... [vs list?])
+         list?]{
+  When used as an expression, construct a list; when used as a pattern, match a list. Alias for Racket's @racket[list*] both as an expression and as a pattern.
+
+  @codeblock{
+    (: 1 [2 3])
+    (: 1 2 3 [4 5 6])
+    (def [: x xs] [1 2 3])
+  }
 }
 
 @section{Generics}
@@ -118,55 +157,8 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
       (pop stack)
       (top stack))
    }
-}
 
-@section{Generic Operators}
-
-@defproc[(append [a appendable?]
-                 [b appendable?])
-         appendable?]{
-
- A function taking two arguments that composes them using the implemention of @racket[gen:appendable] for the type of the arguments being composed.
-}
-
-@defproc[(~ [v appendable?]
-            ...)
-         appendable?]{
- Append the provided values together, using the canonical append operation on the data based on its type. The special value @racket[ID] serves as the generic identity value when the type of the operands is not known. In particular, this value is the result when no operands are provided.
-
-@codeblock{
-  (~ [1 2 3] [4 5 6] [7 8 9])
-  (~ "abc" "def" "ghijk")
- }
-}
-
-@section{Lists}
-
-@defproc[(: [v any/c] ... [vs list?])
-         list?]{
-  When used as an expression, construct a list; when used as a pattern, match a list. Alias for Racket's @racket[list*] both as an expression and as a pattern.
-
-  @codeblock{
-    (: 1 [2 3])
-    (: 1 2 3 [4 5 6])
-    (def [: x xs] [1 2 3])
-  }
-}
-
-@defproc[(map [f (-> any/c any/c)] [vs list?])
-         list?]{
-  An alias for Racket's @racket[map].
-
-  @codeblock{
-    (map ☯(~> sqr add1) [1 2 3 4 5])
-    (map ☯(switch [positive? add1] [else sub1]) [1 -2 3 -4 5])
-  }
-}
-
-Likewise, many other standard list operations in @racket[racket/list] are available. However, for any nontrivial list processing, it's advisable to use Qi flows, as they use the operations from @racket[qi/list] which are more efficient (and more clear).
-
-@codeblock{
-  (~> ([1 2 3 4 5]) (filter odd?) (map sqr) (foldl +))
+ Protocols may be implemented in user-defined types via, e.g., @racket[(implements stack method ...)].
 }
 
 @section{User-defined Datatypes}
@@ -310,3 +302,7 @@ Many of Raqit's binding forms, including @racket[def], @racket[let] and @racket[
     (map ☯(<~ add1 sqr) [1 2 3])
    }
 }
+
+@section{Interoperating with Racket}
+
+Raqit includes all of @racket[racket/base]. Any installed Racket collection may be used in the usual way, e.g., @racket[(use racket/list)].
