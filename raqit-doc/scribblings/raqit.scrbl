@@ -143,7 +143,7 @@ Likewise, many other standard list operations in @racket[racket/list] are availa
 @section{User-defined Datatypes}
 
 @defform[(struct stx ...)]{
-  Identical to Racket's @racket[struct], except that it is @racket[#:transparent] by default.
+  Identical to Racket's @racket[struct], except that it is @racket[#:transparent] by default, and supports the syntax @racket[(implements protocol-name method ...)] instead of Racket's @racket[#:methods gen:interface-name [method ...]] for generic interfaces, where @racket[protocol-name] is the name of the protocol rather than its produced binding, e.g., @racket[(implements stack ...)] rather than @racket[(implements gen:stack ...)].
 }
 
 @section{Modules}

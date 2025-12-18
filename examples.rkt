@@ -10,13 +10,13 @@
   (top stack))
 
 (struct dogg (name age)
-  #:methods gen:stack
-  [(fun push (this element)
-     'hi)
-   (fun pop (this)
-     'hi)
-   (fun top (this)
-     'hi)])
+  (implements stack
+    (fun push (this element)
+      'hi)
+    (fun pop (this)
+      'hi)
+    (fun top (this)
+      'hi)))
 
 (fun key-sum (a b c #:key k)
   (~> (a b c) (>< k) +))
