@@ -78,6 +78,35 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
  }
 }
 
+@deftogether[(
+  @defproc[(< [#:key key (-> any/c orderable?) #f]
+            [v any/c]
+            ...)
+         boolean?]
+  @defproc[(<= [#:key key (-> any/c orderable?) #f]
+            [v any/c]
+            ...)
+         boolean?]
+  @defproc[(>= [#:key key (-> any/c orderable?) #f]
+            [v any/c]
+            ...)
+         boolean?]
+  @defproc[(> [#:key key (-> any/c orderable?) #f]
+            [v any/c]
+            ...)
+         boolean?]
+  @defproc[(min [#:key key (-> any/c orderable?) #f]
+            [v any/c]
+            ...)
+         boolean?]
+  @defproc[(max [#:key key (-> any/c orderable?) #f]
+            [v any/c]
+            ...)
+         boolean?]
+  )]{
+  @emph{Generic} order relations supporting any orderable type. Identical to @racket[<], @racket[<=], @racket[>=], @racket[>], @racket[min], and @racket[max] from @seclink["Order_Relations" #:indirect? #t #:doc '(lib "relation/scribblings/relation.scrbl")]{@racket[relation/order]}.
+}
+
 @section{Generics}
 
 @defform[(protocol stx ...)]{
