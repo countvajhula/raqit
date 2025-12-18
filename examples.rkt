@@ -36,6 +36,22 @@
 
 (= #:key string-upcase "abc" "ABC")
 
+(< 1 2 3)
+
+(< "apple" "banana" "cherry")
+
+(< "abc" "PqR")
+
+(< #:key string-upcase "abc" "PqR")
+
+(sort [2 3 1] <)
+
+(sort ["abc" "AAB" "Def" "aaa"] <)
+
+(sort ["abc" "AAB" "Def" "aaa"] ☯(< #:key string-upcase))
+
+(~> (["abc" "AAB" "Def" "aaa"]) (sort <))
+
 (struct dog (name age))
 
 (dog "fido" 5)
