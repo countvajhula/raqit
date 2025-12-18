@@ -19,6 +19,7 @@
          (all-from-out "flow.rkt")
          (all-from-out "macro.rkt")
          (all-from-out "equivalence.rkt")
+         (all-from-out "order.rkt")
          (all-from-out "struct.rkt")
          (all-from-out "generic.rkt")
          (all-from-out "append.rkt")
@@ -40,6 +41,7 @@
          "flow.rkt"
          "macro.rkt"
          "equivalence.rkt"
+         "order.rkt"
          "struct.rkt"
          "generic.rkt"
          "append.rkt"
