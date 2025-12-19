@@ -46,6 +46,26 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
 
 @racket[☯(...)] is a Qi flow.
 
+@subsection{Lambdas}
+
+@deftogether[(
+  @defform[(lambda args body ...)]
+  @defform[(λ args body ...)]
+  @defform[(lambda [args body ...] ...)]
+  @defform[(λ [args body ...] ...)]
+  )]{
+  Identical to either Racket's @racket[lambda] or @racket[case-lambda], depending on the syntax used.
+
+  @codeblock{
+    (λ (a) (+ a a))
+    (λ [(a) (+ a a)]
+       [(a b) (+ a b)]
+       [args (apply + args)])
+   }
+}
+
+Lambdas power Raqit's @racket[fun] but should rarely be used directly — favor using Qi flows via @racket[☯()], instead.
+
 @subsection{Sequencing}
 
 @defform[(do e ...)]{
@@ -238,16 +258,19 @@ However, for any nontrivial list processing, it's advisable to use Qi flows, as 
 }
 
 @deftogether[(
-  @defform[(fun name (arg ...) body ...)]
-  @defform[#:link-target? #f (fun name args body ...)]
+  @defform[(fun name args body ...)]
+  @defform[#:link-target? #f (fun name [args body ...] ...)]
   )]{
-  Identical to Racket's @racket[define], but with different syntax.
+  Similar to Racket's @racket[define] for function definitions, but also supports specifying multiple arities like Racket's @racket[case-lambda].
 
   @codeblock{
     (fun do-something (v)
       (abs v))
     (fun do-something args
       (length args))
+    (fun do-something
+      [(v) (abs v)]
+      [args (length args)])
    }
 }
 

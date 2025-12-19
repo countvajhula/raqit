@@ -74,6 +74,10 @@
   (def w (abs v))
   w)
 
+(fun do-something-too
+  [(v) "v"]
+  [(v w) "v and w"])
+
 (fun eqwal (x y #:key k)
   (equal? (k x) (k y)))
 
