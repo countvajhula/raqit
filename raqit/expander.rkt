@@ -17,6 +17,7 @@
          (all-from-out "fun.rkt")
          (all-from-out "class.rkt")
          (all-from-out "flow.rkt")
+         (all-from-out "lambda.rkt")
          (all-from-out "macro.rkt")
          (all-from-out "equivalence.rkt")
          (all-from-out "order.rkt")
@@ -39,6 +40,7 @@
          "fun.rkt"
          "class.rkt"
          "flow.rkt"
+         "lambda.rkt"
          "macro.rkt"
          "equivalence.rkt"
          "order.rkt"
