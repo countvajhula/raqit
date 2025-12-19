@@ -27,7 +27,7 @@ help:
 # Primarily for use by CI.
 # Installs dependencies as well as linking this as a package.
 install:
-	raco pkg install --deps search-auto --link $(PWD)/$(PACKAGE-NAME) $(PWD)/$(PACKAGE-NAME)-doc
+	raco pkg install --deps search-auto --link $(PWD)/$(PACKAGE-NAME) $(PWD)/$(PACKAGE-NAME)-doc $(PWD)/$(PACKAGE-NAME)-test
 
 remove:
 	raco pkg remove $(PACKAGE-NAME)
@@ -63,4 +63,11 @@ clean:
 check-deps:
 	raco setup --no-docs $(DEPS-FLAGS) $(PACKAGE-NAME)
 
-.PHONY:	help install remove build build-docs docs build-standalone-docs clean check-deps
+# Suitable for both day-to-day dev and CI
+# Note: we don't test qi-doc since there aren't any tests there atm
+# and it also seems to make things extremely slow to include it.
+test:
+	raco make -l raqit/tests/raqit -v
+	raco test -exp $(PACKAGE-NAME) $(PACKAGE-NAME)-test
+
+.PHONY:	help install remove build build-docs docs build-standalone-docs clean check-deps test
