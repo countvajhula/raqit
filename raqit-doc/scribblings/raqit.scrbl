@@ -51,8 +51,8 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
 @deftogether[(
   @defform[(lambda args body ...)]
   @defform[(λ args body ...)]
-  @defform[(lambda [args body ...] ...)]
-  @defform[(λ [args body ...] ...)]
+  @defform[#:link-target? #f (lambda [args body ...] ...)]
+  @defform[#:link-target? #f (λ [args body ...] ...)]
   )]{
   Identical to either Racket's @racket[lambda] or @racket[case-lambda], depending on the syntax used.
 
@@ -132,7 +132,7 @@ Lambdas power Raqit's @racket[fun] but should rarely be used directly — favor 
          appendable?]{
  Append the provided values together, using the type's implementation of the @racket[appendable] protocol. The special value @racket[ID] serves as the generic identity value when the type of the operands is not known. In particular, this value is the result when no operands are provided.
 
- Identical to @racket[~] from @seclink["Composing_Operations" #:indirect? #t #:doc '(lib "relation/scribblings/relation.scrbl")]{@racket[relation/composition]}
+ Identical to @racket[~] from @seclink["Composing_Operations" #:indirect? #t #:doc '(lib "relation/scribblings/relation.scrbl")]{@racket[relation/composition]}.
 
 @codeblock{
   (~ [1 2 3] [4 5 6] [7 8 9])
@@ -167,6 +167,8 @@ However, for any nontrivial list processing, it's advisable to use Qi flows, as 
 }
 
 @section{Generics}
+
+Many of Raqit's @seclink["Relations_and_Operators"]{relations and operators} are generic to any type. You can also define your own generic functions using @emph{protocols}.
 
 @defform[(protocol stx ...)]{
   Alias for Racket's @racket[define-generics].
