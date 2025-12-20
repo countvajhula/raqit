@@ -30,6 +30,9 @@
     [(or (symbol? v) (number? v) (string? v))
      (write v out)
      (void)]
+    [(boolean? v)
+     (write-string (if v "#true" "#false") out)
+     (void)]
     [else
      (print v out)
      (void)]))
