@@ -17,9 +17,9 @@
 (define (pr1 v #:out out)
   (cond
     [(list? v)
-     (pr1-list/open-close v "(" ")" out pr1)]
+     (pr1-list/open-close v "[" "]" out pr1)]
     [(vector? v)
-     (pr1-list/open-close (vector->list v) "[" "]" out pr1)]
+     (pr1-list/open-close (vector->list v) "#[" "]" out pr1)]
     [(hash? v)
      (pr1-list/open-close (append* (hash-map v list)) "{" "}" out pr1)]
     [(set? v)
