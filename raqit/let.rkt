@@ -4,9 +4,12 @@
 
 (require racket/match
          syntax/parse/define
-         syntax/parse
-         (for-syntax racket/base
-                     syntax/parse/class/paren-shape)
-         "private/util.rkt")
+         (for-syntax racket/base))
 
-(define-alias let match-let)
+(define-syntax-parser let
+  [(_ name:id arg ...)
+   (raise-syntax-error #f
+                       "Named 'let' is not supported; use 'loop' for recursion."
+                       this-syntax
+                       #'name)]
+  [(_ arg ...) #'(match-let arg ...)])
