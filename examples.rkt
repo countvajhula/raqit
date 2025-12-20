@@ -139,7 +139,7 @@
 
 (send charlie get-size)
 
-(loop go (a 5)
+(loop go ([a 5])
   (when (> a 0)
     (displayln a)
     (go (sub1 a))))

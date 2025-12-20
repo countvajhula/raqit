@@ -205,7 +205,7 @@ Many of Raqit's @seclink["Relations_and_Operators"]{relations and operators} are
   A basic looping form, analogous to Racket's named let, that uses pattern-matching bindings.
 
   @codeblock{
-    (loop go (a 5)
+    (loop go ([a 5])
       (when (> a 0)
         (displayln a)
         (go (sub1 a))))
