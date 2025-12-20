@@ -9,6 +9,5 @@
 
 (define-syntax-parser def
   [(_ (~parens pat ...) values-expr)
-   #:with values-expr-user (datum->syntax this-syntax #'values-expr)
-   #'(match-define-values (pat ...) values-expr-user)]
+   #'(match-define-values (pat ...) values-expr)]
   [(_ pat val) #'(match-define pat val)])
