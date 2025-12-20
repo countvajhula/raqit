@@ -331,3 +331,74 @@ Many of Raqit's binding forms, including @racket[def], @racket[let] and @racket[
 @section{Interoperating with Racket}
 
 Raqit includes all of @racket[racket/base]. Any installed Racket collection may be used in the usual way, e.g., @racket[(use racket/list)].
+
+@section{For Racket Programmers}
+
+This section motivates some of the choices in Raqit.
+
+@subsection{@racket[def] and @racket[fun]}
+
+Racket has a single @racket[define] form for defining both values and functions. Raqit has separate @racket[def] and @racket[fun] forms. This is so that the former can also handle binding multiple values unambiguously, which in Racket requires the separate @racket[define-values] form. It also allows @racket[fun] to unambiguously handle specifying both single as well as multiple arities for the function, which in Racket requires reliance on a separate @racket[case-lambda].
+
+The names are chosen to be familiar from other contexts: Clojure and Python use the name @racket[def], while Rhombus uses the name @racket[fun] for the function-defining form.
+
+In general, Raqit borrows the idea from many popular languages that defining forms need not begin with the word "define." Thus, @racket[fun] defines a function, @racket[flow] defines a Qi flow, and @racket[class] defines a class. In Racket, all of these require a prefacing form of @racket[define], although this policy of Raqit's is consistent with the use of @racket[struct] in Racket to define a structure type. Likewise, @racket[protocol] defines a generic interface (the specific name is less important, but this one was chosen to match a similar facility in Clojure and in Python). An advantage of this approach, in addition to brevity, is that it makes it easier for the programmer to identify class definitions, function definitions, protocol definitions, etc., at a glance.
+
+@subsection{Unquoted literals}
+
+Racket literals are quoted, meaning that, e.g., @racket['(a b c)] does not evaluate its arguments, a point of surprise for many newcomers, and requiring the use of @racket[(list a b c)]. Raqit allows writing unquoted literals like @racket[[a b c]], supporting a practice followed by many programming languages, including by Rhombus. It is more convenient and more visually distinct.
+
+@subsection{Interchangeable Delimiters}
+
+At the same time, Racket programmers expect delimiter types to be interchangeable, and being able to preserve this in general syntax (aside from expression positions) is valuable. To accomplish this, Raqit handles @racket[[]] and @racket[()] parsing at the expansion stage, when the usage context (e.g., general syntax vs expression) is already known, allowing these to be distinguished only in expression contexts and not otherwise.
+
+@subsection{Functional Programming}
+
+Racket has adequate functional programming facilities but they are syntactically awkward (e.g., requiring the use of explicit @racket[conjoin], @racket[disjoin] and @racket[compose]) or conceptually gratuitous, requiring explicit use of currying, or entailing the frequent need to spell out explicit lambdas.
+
+Raqit's design makes it easy to embed Qi flows anywhere in your programs and conveniently extend the syntax of such flows in the same way as any other language form. This enables easy specification of higher-order functions, including intuitive currying syntax (e.g., @racket[☯(f arg)]), effortless composition (e.g., @racket[~>], @racket[and] and @racket[or]), point-free dispatching (@racket[switch]) to express many common conditionals, functional optimizations not possible in Racket (deforestation), and more. Raqit strongly encourages the functional style, and with simple and elegant syntax.
+
+@subsection{Host Language and Hosted Languages}
+
+As Racket is a general ecosystem for languages, the use of any particular DSL requires a dedicated interface macro, and dedicated forms for macro-extension. Raqit aims to be a proof-of-concept of seamlessly weaving specialized hosted DSLs into the general-purpose host language by leveraging technologies such as @seclink["top" #:indirect? #t #:doc '(lib "syntax-spec-v3/scribblings/main.scrbl")]{Syntax Spec}, to gain the generality of the host as well as benefit from tailored, elegant syntax and performance from the specializations of each DSL. The ability to use and extend Qi flows using familiar host language patterns (e.g., the @racket[macro] form) is one example.
+
+@subsection[#:tag "frp:rao"]{Relations and Operators}
+
+Racket has special relations and operators for working with every type. Raqit provides generic operators where it makes sense, including order relations like @racket[<] that can sort any orderable type (e.g., numbers, strings, sets), and the @racket[~] append operator that can append any appendable type (e.g., lists, strings, vectors). Racket's type-specific relations are the most efficient, but the huge gain in economy of expression is worth the modest performance cost from generic dispatch in most cases.
+
+@subsection{Unified @racket[macro] Form}
+
+Racket provides a diverse range of macro-defining forms and at least two separate macro systems! In addition, DSLs provide their own macro-defining forms.
+
+Raqit unifies both single and multi-clause pattern-based macros using the single @racket[macro] form. Additionally, it uses reader-level syntax to delegate macro definitions to DSL-specific macro-defining forms, once again, expecting only the same syntax common to all macro-defining forms, i.e., single-clause vs multi-clause patterns.
+
+This unification greatly simplifies defining macros, and also supports DSLs being seamlessly part of the host language while still retaining clear formal separation.
+
+@subsection{@racket[:] Instead of @racket[cons] and @racket[list*]}
+
+@racket[cons] intuitively generalizes to @racket[list*], so Raqit handles both using the common and standard syntax, @racket[:] (borrowed from functional languages like Haskell), usable in both expression and pattern-matching contexts.
+
+@subsection{Pervasive pattern-matching}
+
+In many cases, ordinary binding forms are naturally generalized by pattern-matching ones. Raqit (like Rhombus) scrupulously uses the pattern-matching generalizations offered by Racket, exclusively, avoiding the dichotomy without any loss in expressiveness.
+
+@subsection{@racket[protocol] and @racket[implements]}
+
+Declaring that a particular Racket struct type implements a generic interface has a complicated and non-standard syntax, where the keyword argument @racket[#:methods] groups the following two otherwise ungrouped arguments, with the second one requiring an extra pair of delimiters to wrap the defined methods. Explicit grouping with @racket[implements] simplifies this significantly, and also allows us to expect simply the @emph{name} of the interface being implemented (e.g., @racket[(implements stack ...)]), instead of its exact binding (i.e., avoiding @racket[gen:stack]).
+
+@subsection{@racket[loop] as Named @racket[let]}
+
+Racket's @racket[let] does double duty, both as a binding form as well a looping form. This makes it very useful, but it also prevents programmers from gaining valuable clues from visually scanning code that could allow them to identify that the form refers to a recursion rather than a simple scoped expression. Therefore, Raqit's @racket[let] explicitly @emph{forbids} a name, and @racket[loop], while otherwise equivalent, explicitly @emph{requires} a name. Additionally, both of these are pattern matching, making them strictly more powerful than Racket's @racket[let] (and equivalent to @racket[match-let]).
+
+@subsection{Research and Planned Features}
+
+It would be valuable to explore:
+
+@itemlist[#:style 'ordered
+  @item{More dedicated DSLs for major language facilities, such as exception-handling}
+  @item{List comprehensions}
+  @item{Pervasive persistent, immutable data structures}
+  @item{Generic collection and sequence operations}
+]
+
+There are also many compelling research directions being explored for Qi, intended to enable new possibilities for functional #langs including Raqit.
