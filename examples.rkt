@@ -13,6 +13,7 @@
 
 ;; expressions: paren shape matters for data literals
 [1 2 3]  ; list
+#[1 2 3] ; vector
 {'a 1 'b 2 'c 3}  ; hash
 #{1 2 3 1}  ; set
 ☯(~> sqr add1)  ; flow
@@ -34,7 +35,6 @@
   [(v w) "v and w"])
 
 ;; `flow` defines a Qi flow
-
 (flow transform
   (~> sqr (* 2) add1))
 
@@ -45,7 +45,7 @@
 ;; use : to construct a list from existing lists
 (: 1 2 [3 4 5])
 
-;; let, def, and loop are all pattern-matching
+;; `let` and `def` are both pattern-matching
 (let ([[: x xs] [1 2 3]]
       [y 3])
   [x y])
@@ -70,7 +70,7 @@
 
 ;; loops
 
-;; Use the loop form for recursion. Like def and let,
+;; Use the `loop` form for recursion. Like def and let,
 ;; it exhibits pattern-matching bindings
 (loop go ([a 5])
   (when (> a 0)
