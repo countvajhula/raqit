@@ -3,7 +3,7 @@
 (provide ~
          append
          identity
-         empty?
+         none?
          gen:appendable)
 
 (require "generic.rkt"
@@ -91,7 +91,7 @@
 
 (define ID (composition-identity))
 
-(define (empty? v)
+(define (none? v)
   (equal? v (identity v)))
 
 (define (~ . vs)

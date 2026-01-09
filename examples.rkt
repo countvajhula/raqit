@@ -70,11 +70,13 @@
 
 ;; null values
 
-;; You can use `empty?` to check for empty values of any type
-(empty? [1 2 3])
-(empty? [])
-(empty? "hello")
-(empty? "")
+;; You can use `none?` to check for empty values of any type
+;; This includes treating 0 as "empty" for numbers
+(none? [1 2 3])
+(none? [])
+(none? "hello")
+(none? "")
+(none? 0)
 
 ;; loops
 
