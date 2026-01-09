@@ -3,7 +3,6 @@
 (provide ~
          append
          identity
-         some?
          empty?
          gen:appendable)
 
@@ -94,9 +93,6 @@
 
 (define (empty? v)
   (equal? v (identity v)))
-
-(define (some? v)
-  (not (empty? v)))
 
 (define (~ . vs)
   (if (null? vs)

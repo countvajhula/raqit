@@ -76,10 +76,6 @@
 (empty? "hello")
 (empty? "")
 
-;; And `some?` is the inverse of that
-(some? [1 2 3])
-(some? "")
-
 ;; loops
 
 ;; Use the `loop` form for recursion. Like def and let,
