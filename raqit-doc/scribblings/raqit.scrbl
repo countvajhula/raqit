@@ -140,16 +140,16 @@ Lambdas power Raqit's @racket[fun] but should rarely be used directly — favor 
  }
 }
 
-@defproc[(none? [v any/c])
+@defproc[(null? [v any/c])
          boolean?]{
-  @racket[none?] is a @emph{generic} predicate to check for an empty value of any type.
+  @racket[null?] is a @emph{generic} predicate to check for an empty value of any type.
 
   @codeblock{
-    (none? [1 2 3])
-    (none? [])
-    (none? "hello")
-    (none? "")
-    (none? 0)
+    (null? [1 2 3])
+    (null? [])
+    (null? "hello")
+    (null? "")
+    (null? 0)
   }
 }
 

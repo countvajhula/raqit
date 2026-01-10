@@ -3,7 +3,8 @@
 (provide ~
          append
          identity
-         none?
+         null?
+         null
          gen:appendable)
 
 (require "generic.rkt"
@@ -18,49 +19,49 @@
   (identity appendable)
   #:defaults ([procedure?
                (define (append appendable other)
-                 (if (eq? other ID)
+                 (if (eq? other null)
                      appendable
                      (compose appendable other)))
                (define (identity appendable)
                  values)])
   #:fast-defaults ([string?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (string-append appendable other)))
                     (define (identity appendable)
                       "")]
                    [bytes?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (bytes-append appendable other)))
                     (define (identity appendable)
                       #"")]
                    [list?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (b:append appendable other)))
                     (define (identity appendable)
                       (list))]
                    [vector?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (vector-append appendable other)))
                     (define (identity appendable)
                       #())]
                    [set?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (set-union appendable other)))
                     (define (identity appendable)
                       (set))]
                    [hash?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (for*/hash ([h (in-list (list appendable other))]
                                       [(k v) (in-hash h)])
@@ -69,14 +70,14 @@
                       (hash))]
                    [number?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (+ appendable other)))
                     (define (identity appendable)
                       0)]
                    [stream?
                     (define (append appendable other)
-                      (if (eq? other ID)
+                      (if (eq? other null)
                           appendable
                           (stream-append appendable other)))
                     (define (identity appendable)
@@ -89,12 +90,12 @@
    (define (identity appendable)
      appendable)])
 
-(define ID (composition-identity))
+(define null (composition-identity))
 
-(define (none? v)
+(define (null? v)
   (equal? v (identity v)))
 
 (define (~ . vs)
-  (if (null? vs)
-      ID
-      (foldr append ID vs)))
+  (if (b:null? vs)
+      null
+      (foldr append null vs)))

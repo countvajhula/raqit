@@ -70,13 +70,20 @@
 
 ;; null values
 
-;; You can use `none?` to check for empty values of any type
+;; You can use `null?` to check for empty values of any type
 ;; This includes treating 0 as "empty" for numbers
-(none? [1 2 3])
-(none? [])
-(none? "hello")
-(none? "")
-(none? 0)
+(null? [1 2 3])
+(null? [])
+(null? "hello")
+(null? "")
+(null? 3)
+(null? 0)
+
+;; And `null` is a generic empty value that may be returned
+;; from a composing operation if a type is not inferable.
+;; It should generally not be used directly.
+null
+(~)
 
 ;; loops
 
