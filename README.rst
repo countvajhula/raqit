@@ -52,6 +52,13 @@ Remember to update ``examples.rkt`` for your new language to reflect your change
 
 If you'd like to customize syntax at the reader level (e.g., for handling special symbols, delimiters, prefixes or suffixes that don't follow the usual Lisp (symex-oriented) syntax) rather than at the expander stage (i.e., macros), then refer to ``reader.rkt`` which contains the language `readtable <https://docs.racket-lang.org/guide/hash-reader.html#(part._readtable)>`_, including some existing extensions that you could follow as examples.
 
+Using Raqit Outside of Raqit
+----------------------------
+
+In general, features developed for Raqit are intended to be modular and self-contained and available to the entire Racket ecosystem. Once a feature stabilizes and seems to have attained a well-scoped objective, it should be possible (and would be best) to release it as a distinct Racket package which then becomes a dependency of Raqit. But typically, this will only be done in response to a tangible need, e.g., a request from a user.
+
+So if there is a feature in Raqit that you would like to use in Racket or in another ``#lang``, please submit an issue, or even, of course, feel free to extract the component yourself, if you'd like (but ideally, please start a conversation so that Raqit could continue to use the component as a dependency without maintaining an independent implementation), and please retain the public domain dedication.
+
 Non-Ownership
 =============
 
