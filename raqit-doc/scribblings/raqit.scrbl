@@ -42,7 +42,7 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
 
 @racket[#{...}] is a set.
 
-@racket[{...}] is a hash.
+@racket[{[k v] ...}] is a hash.
 
 @racket[☯(...)] is a Qi flow.
 
@@ -311,7 +311,7 @@ Many of Raqit's binding forms, including @racket[def], @racket[let] and @racket[
 
 @racket[#{e ...}] matches and destructures sets. To match subsets, use the wildcard sequence pattern, e.g., @racket[#{e₁ e₂ _ ...}].
 
-@racket[{k v ...}] matches and destructures hashes. To match only some keys (the most common case), use the wildcard sequence pattern, e.g., @racket[{k v _ ...}]. Note that the wildcard sequence pattern here @emph{must} come at the end.
+@racket[{[k v] ...}] matches and destructures hashes. To match only some keys (the most common case), use the wildcard sequence pattern, e.g., @racket[{[k v] _ ...}]. Note that the wildcard sequence pattern here @emph{must} come at the end.
 
 @section{Macros}
 

@@ -4,6 +4,7 @@
 
 (require syntax/parse/define
          racket/match
+         syntax/parse
          (for-syntax racket/base))
 
 (define-match-expander #%hash
@@ -11,13 +12,13 @@
   (syntax-parser
     ;; if the pattern ends with `_ ...`
     ;; use subset matching
-    [(_ k v ... (~datum _) (~datum ...))
-     #'(hash k v ... #:open)]
+    [(_ [k v] ... (~datum _) (~datum ...))
+     #'(hash (~@ k v) ... #:open)]
     ;; default to strict matching
-    [(_ v ...)
-     #'(hash v ...)])
+    [(_ [k v] ...)
+     #'(hash (~@ k v) ...)])
 
   ;; use in expression context
   (syntax-parser
-    [(_ v ...)
-     #'(hash v ...)]))
+    [(_ [k v] ...)
+     #'(hash (~@ k v) ...)]))

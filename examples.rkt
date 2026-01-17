@@ -14,7 +14,7 @@
 ;; expressions: paren shape matters for data literals
 [1 2 3]  ; list
 #[1 2 3] ; vector
-{'a 1 'b 2 'c 3}  ; hash
+{['a 1] ['b 2] ['c 3]} ; hash
 #{1 2 3 1}  ; set
 ☯(~> sqr add1)  ; flow
 
@@ -54,7 +54,7 @@
 
 (def #{x y} #{1 2})
 
-(def {'a _ 'b val 'c _} {'a 1 'b 2 'c 3})
+(def {['a _] ['b val] ['c _]} {['a 1] ['b 2] ['c 3]})
 
 [vs x y val]
 
