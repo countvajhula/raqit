@@ -4,9 +4,9 @@
                      #%module-begin
                      #%app
                      #%datum)
-         (rename-out [this-module-begin #%module-begin])
+         (rename-out [#%lang-module-begin #%module-begin])
          (rename-out [#%lang-app #%app])
-         (rename-out [raqit-datum #%datum])
+         (rename-out [#%lang-datum #%datum])
          (all-from-out "hash.rkt")
          (all-from-out "set.rkt")
          (all-from-out "list.rkt")
@@ -28,8 +28,7 @@
          (all-from-out "qi.rkt"))
 
 (require "app.rkt"
-         (rename-in "datum.rkt"
-                    [#%datum raqit-datum])
+         "datum.rkt"
          "hash.rkt"
          "set.rkt"
          "list.rkt"
@@ -52,7 +51,7 @@
          syntax/parse/define
          (for-syntax racket/base))
 
-(define-syntax-parser this-module-begin
+(define-syntax-parser #%lang-module-begin
   [(_ EXPR ...)
    #'(#%module-begin
       EXPR ...)])
