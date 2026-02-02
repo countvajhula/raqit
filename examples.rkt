@@ -13,6 +13,8 @@
 
 ;; expressions: paren shape matters for data literals
 [1 2 3]  ; list
+[1 .. 10] ; construct a list from a range
+[1 3 .. 10] ; ... with a step
 #[1 2 3] ; vector
 {['a 1] ['b 2] ['c 3]} ; hash
 #{1 2 3 1}  ; set

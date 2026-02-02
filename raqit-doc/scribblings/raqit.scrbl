@@ -30,13 +30,13 @@ These docs describe the latest incarnation of the language, representing a (one)
 
 @racket[(...)] is ordinary function application.
 
-@racket[[...]] is an unquoted list.
-
-@subsection{Data Literals}
+@subsection{Constructing Data}
 
 All of these literals are @emph{unquoted}, meaning that the arguments are evaluated prior to construction of the datatype.
 
 @racket[[...]] is a list.
+
+@racket[[low .. high]] and @racket[[low next .. high]] construct a list from a range.
 
 @racket[#(...)] is an immutable vector (the delimiters here could also be @racket[#[]]).
 
@@ -158,14 +158,14 @@ Lambdas power Raqit's @racket[fun] but should rarely be used directly — favor 
 Raqit includes @racket[racket/base], so many standard list-processing utilties are available.
 
 @codeblock{
-    (map ☯(~> sqr add1) [1 2 3 4 5])
+    (map ☯(~> sqr add1) [1 .. 10])
     (map ☯(switch [positive? add1] [else sub1]) [1 -2 3 -4 5])
 }
 
 However, for any nontrivial list processing, it's advisable to use Qi flows, as they use the operations from @racket[qi/list] which are more efficient (and more clear).
 
 @codeblock{
-  (~> ([1 2 3 4 5]) (filter odd?) (map sqr) (foldl + 0))
+  (~> ([1 .. 10]) (filter odd?) (map sqr) (foldl + 0))
 }
 
 @defproc[(: [v any/c] ... [vs list?])
