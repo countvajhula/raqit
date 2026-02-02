@@ -1,13 +1,10 @@
 #lang racket/base
 
-(provide (rename-out [squarelist-app #%app])
-         :)
+(provide :)
 
 (require racket/match
          (for-syntax racket/base
-                     syntax/parse
-                     syntax/parse/class/paren-shape)
-         (only-in racket [#%app racket:app]))
+                     syntax/parse))
 
 (define-match-expander :
   (syntax-parser
@@ -16,12 +13,3 @@
   (syntax-parser
     [(_ v ...)
      #'(list* v ...)]))
-
-(define-syntax squarelist-app
-  (syntax-parser
-    [(~brackets _ x ...)
-     (syntax/loc this-syntax
-       (list x ...))]
-    [(_ x ...)
-     (syntax/loc this-syntax
-       (racket:app x ...))]))

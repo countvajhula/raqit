@@ -5,11 +5,11 @@
                      #%app
                      #%datum)
          (rename-out [this-module-begin #%module-begin])
-         (all-from-out "app.rkt")
-         (rename-out [raqit-app #%app])
+         (rename-out [#%lang-app #%app])
          (rename-out [raqit-datum #%datum])
          (all-from-out "hash.rkt")
          (all-from-out "set.rkt")
+         (all-from-out "list.rkt")
          (all-from-out "do.rkt")
          (all-from-out "def.rkt")
          (all-from-out "let.rkt")
@@ -27,12 +27,12 @@
          (all-from-out "use.rkt")
          (all-from-out "qi.rkt"))
 
-(require (rename-in "app.rkt"
-                    [#%app raqit-app])
+(require "app.rkt"
          (rename-in "datum.rkt"
                     [#%datum raqit-datum])
          "hash.rkt"
          "set.rkt"
+         "list.rkt"
          "do.rkt"
          "def.rkt"
          "let.rkt"

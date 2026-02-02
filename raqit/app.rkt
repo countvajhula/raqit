@@ -1,21 +1,24 @@
 #lang racket/base
 
-(provide #%app
-         (all-from-out "list.rkt"))
+(provide #%lang-app)
 
 (require syntax/parse/define
+         (only-in racket/list range)
          (for-syntax syntax/parse/class/paren-shape
-                     racket/base)
-         (only-in racket
-                  [#%app racket:app])
-         (rename-in "list.rkt"
-                    [#%app list:app]))
+                     racket/base))
 
-(define-syntax #%app
+;; delegates to Racket's #%app implicitly
+(define-syntax #%lang-app
   (syntax-parser
+    [(~brackets _ low next (~datum ..) high)
+     (syntax/loc this-syntax
+       (range low (add1 high) (- next low)))]
+    [(~brackets _ low (~datum ..) high)
+     (syntax/loc this-syntax
+       (range low (add1 high)))]
     [(~brackets _ x ...)
      (syntax/loc this-syntax
-       (list:app x ...))]
+       (list x ...))]
     [(_ x ...)
      (syntax/loc this-syntax
-       (racket:app x ...))]))
+       (x ...))]))
