@@ -6,10 +6,15 @@
 
 (require qi/list
          qi
+         (prefix-in b: racket/base)
+         "void.rkt"
          syntax/parse/define
          (for-syntax racket/base))
 
 (define-syntax-parser raqit-flow
+  ;; Intercept the void literal, i.e., ☯void
+  [(_ (~literal void)) #'(flow b:void)]
+
   [(_ expr)
    (define shape (syntax-property #'expr 'paren-shape))
 

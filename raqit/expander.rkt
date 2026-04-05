@@ -7,6 +7,7 @@
          (rename-out [#%lang-module-begin #%module-begin])
          (rename-out [#%lang-app #%app])
          (rename-out [#%lang-datum #%datum])
+         (all-from-out "void.rkt")
          (all-from-out "hash.rkt")
          (all-from-out "set.rkt")
          (all-from-out "list.rkt")
@@ -29,6 +30,7 @@
 
 (require "app.rkt"
          "datum.rkt"
+         "void.rkt"
          "hash.rkt"
          "set.rkt"
          "list.rkt"

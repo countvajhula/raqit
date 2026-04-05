@@ -7,6 +7,13 @@
               sqr)
      (for-syntax racket/base))
 
+;; `void` is a value rather than a function
+(void? void)
+
+;; if you need a function equivalent to Racket's void,
+;; use a Qi flow returning the literal `void`
+(☯void)
+
 ;; basic syntax: () and [] are generally interchangeable
 (let ([a 1]) a)
 (let ((a 1)) a)
