@@ -260,8 +260,11 @@ Many of Raqit's @seclink["Relations_and_Operators"]{relations and operators} are
    }
 }
 
-@defform[(let stx ...)]{
-  Identical to Racket's @racket[match-let].
+@deftogether[(
+  @defform[(let stx ...)]{
+  @defform[(let* stx ...)]{
+  )]{
+  Identical to Racket's @racket[match-let] and @racket[match-let*].
 
   @codeblock{
     (let ([[: x xs] [1 2 3]])

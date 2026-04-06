@@ -1,6 +1,7 @@
 #lang racket/base
 
-(provide let)
+(provide let
+         let*)
 
 (require racket/match
          syntax/parse/define
@@ -13,3 +14,6 @@
                        this-syntax
                        #'name)]
   [(_ arg ...) #'(match-let arg ...)])
+
+(define-syntax-parser let*
+  [(_ arg ...) #'(match-let* arg ...)])
