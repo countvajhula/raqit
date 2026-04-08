@@ -18,7 +18,25 @@
   (make-readtable (current-readtable)
                   #\{ 'terminating-macro hash-proc
                   #\{ 'dispatch-macro set-proc
-                  #\☯ 'terminating-macro flow-proc))
+                  #\☯ 'terminating-macro flow-proc
+                  #\a 'dispatch-macro read-hash-a))
+
+;; Read #any and #all logical values
+(define (read-hash-a ch in src ln col pos)
+  ;; The reader saw '#' and then 'a'.
+  ;; Both '#' and 'a' have already been consumed from the port.
+  ;; Peek at the next two characters
+  (define next-two (peek-string 2 0 in))
+  (cond
+    [(equal? next-two "ny")
+     (read-string 2 in)
+     'the-any]
+    [(equal? next-two "ll")
+     (read-string 2 in)
+     'the-all]
+    [else
+     ;; It was something else, raise a read error
+     (error 'reader "bad syntax: #a~a" next-two)]))
 
 ;; Flow reader
 ;; Reads the immediate next datum and wraps it in #%flow.

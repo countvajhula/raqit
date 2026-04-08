@@ -22,7 +22,8 @@
                   curry)
          racket/set
          (prefix-in b: racket/base)
-         (prefix-in r: "equivalence.rkt"))
+         (prefix-in r: "equivalence.rkt")
+         "logic.rkt")
 
 (define || disjoin)
 
@@ -82,22 +83,29 @@
 (define (< #:key [key #f] . args)
   (if key
       (apply < (map key args))
-      (check-pairwise lt? args)))
+      (check-pairwise (λ (a b)
+                        (cond [(eq? a the-any) (if (eq? b the-any) #false #true)]
+                              [(eq? a the-all) #false]
+                              [(eq? b the-any) #false]
+                              [(eq? b the-all) #true]
+                              [else (lt? a b)]))
+                      args)))
 
 (define (<= #:key [key #f] . args)
   (if key
       (apply <= (map key args))
-      (check-pairwise lte? args)))
+      (check-pairwise (λ (a b)
+                        (cond [(eq? a the-any) #true]
+                              [(eq? b the-any) #false]
+                              [(eq? b the-all) #true]
+                              [(eq? a the-all) #false]
+                              [else (lte? a b)])) args)))
 
 (define (>= #:key [key #f] . args)
-  (if key
-      (apply >= (map key args))
-      (check-pairwise gte? args)))
+  (not (apply < #:key key args)))
 
 (define (> #:key [key #f] . args)
-  (if key
-      (apply > (map key args))
-      (check-pairwise gt? args)))
+  (not (apply <= #:key key args)))
 
 (define (min #:key [key #f] . args)
   (car (sort args (curry < #:key key))))

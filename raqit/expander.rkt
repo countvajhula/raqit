@@ -7,8 +7,9 @@
          (rename-out [#%lang-module-begin #%module-begin])
          (rename-out [#%lang-app #%app])
          (rename-out [#%lang-datum #%datum])
-         (all-from-out "print.rkt")
          (all-from-out "void.rkt")
+         (all-from-out "logic.rkt")
+         (all-from-out "print.rkt")
          (all-from-out "hash.rkt")
          (all-from-out "set.rkt")
          (all-from-out "list.rkt")
@@ -29,10 +30,11 @@
          (all-from-out "use.rkt")
          (all-from-out "qi.rkt"))
 
-(require "app.rkt"
+(require "void.rkt"
+         "logic.rkt"
+         "app.rkt"
          "datum.rkt"
          "print.rkt"
-         "void.rkt"
          "hash.rkt"
          "set.rkt"
          "list.rkt"
