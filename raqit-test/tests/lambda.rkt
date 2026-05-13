@@ -78,7 +78,9 @@
     (test-equal? "two args or optional with default value"
                  ((λ [(x y) x] [(x) x]) 10 20) 10)
     (test-equal? "two default pairs or application"
-                 ((λ [(f x) (f x)] [(x) x]) add1 3) 4))))
+                 ((λ [(f x) (f x)] [(x) x]) add1 3) 4)
+    (test-equal? "two default pairs or application, not a duplicate binding"
+                 ((λ [(x f) (f x)] [(x) x]) 3 add1) 4))))
 
 (module+ main
   (void
