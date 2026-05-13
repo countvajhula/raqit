@@ -74,7 +74,11 @@
       (let ([f (λ (a [b 3]) (+ a b))])
         (check-exn exn:fail:contract:arity? (thunk (f)) "required argument not specified")
         (check-equal? 8 (f 5) "optional argument not specified")
-        (check-equal? 6 (f 1 5) "optional argument specified"))))))
+        (check-equal? 6 (f 1 5) "optional argument specified")))
+    (test-equal? "two args or optional with default value"
+                 ((λ [(x y) x] [(x) x]) 10 20) 10)
+    (test-equal? "two default pairs or application"
+                 ((λ [(f x) (f x)] [(x) x]) add1 3) 4))))
 
 (module+ main
   (void

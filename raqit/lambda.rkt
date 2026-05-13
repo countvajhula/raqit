@@ -10,19 +10,23 @@
 (begin-for-syntax
   ;; 1. Define what a single "Standard Argument" looks like.
   ;;    It can be an ID, a Keyword, or a Default Pair [id val].
-  (define-syntax-class standard-argument
-    #:description "identifier, keyword, or default pair"
+  (define-syntax-class required-argument
+    #:description "identifier or keyword"
     (pattern _:id)
-    (pattern _:keyword)
-    (pattern (_:id _:expr)))
+    (pattern _:keyword))
+
+  (define-syntax-class optional-argument
+    #:description "keyword or default pair"
+    (pattern (_:id _:expr))
+    (pattern _:keyword))
 
   ;; 2. Define the argument LIST composed of those items.
   (define-syntax-class standard-formals
     #:attributes () ;; Suppress attribute exports to avoid consistency errors
     ;; Case A: Proper list (e.g. (x y [z 1]))
-    (pattern (arg:standard-argument ...))
+    (pattern (req-arg:required-argument ... opt-arg:optional-argument ...))
     ;; Case B: Improper list (e.g. (x . rest))
-    (pattern (arg:standard-argument ... . rest:id))
+    (pattern (req-arg:required-argument ... opt-arg:optional-argument ... . rest:id))
     ;; Case C: Single Rest ID (e.g. args)
     (pattern rest:id))
 
