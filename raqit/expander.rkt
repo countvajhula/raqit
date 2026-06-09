@@ -13,6 +13,7 @@
          (all-from-out "hash.rkt")
          (all-from-out "set.rkt")
          (all-from-out "list.rkt")
+         (all-from-out "values.rkt")
          (all-from-out "do.rkt")
          (all-from-out "def.rkt")
          (all-from-out "let.rkt")
@@ -38,6 +39,7 @@
          "hash.rkt"
          "set.rkt"
          "list.rkt"
+         "values.rkt"
          "do.rkt"
          "def.rkt"
          "let.rkt"
