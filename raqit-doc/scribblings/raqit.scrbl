@@ -54,7 +54,7 @@ All of these literals are @emph{unquoted}, meaning that the arguments are evalua
   @defform[#:link-target? #f (lambda [args body ...] ...)]
   @defform[#:link-target? #f (λ [args body ...] ...)]
   )]{
-  Identical to either Racket's @racket[lambda] or @racket[case-lambda], depending on the syntax used.
+  Identical to either Racket's @racket[lambda] or @racket[case-lambda], depending on the syntax used. A regular lambda employs parentheses around the binding clause, while a case-lambda employs square brackets for each case.
 
   @codeblock{
     (λ (a) (+ a a))
@@ -151,6 +151,21 @@ Lambdas power Raqit's @racket[fun] but should rarely be used directly — favor 
     (null? "")
     (null? 0)
   }
+}
+
+@defidform[void]{
+  A literal value that may be used to signify the absence of a valid value, although in many cases it may be preferable for such a function to return zero values, instead.
+
+  @codeblock{
+    (void? void)
+  }
+
+  If you need a function equivalent to Racket's @racket[void], use a Qi flow returning the literal @racket[void].
+
+  @codeblock{
+    (void? (☯void))
+  }
+
 }
 
 @section{Lists}
@@ -264,7 +279,7 @@ Many of Raqit's @seclink["Relations_and_Operators"]{relations and operators} are
   @defform[(let stx ...)]
   @defform[(let* stx ...)]
   )]{
-  Identical to Racket's @racket[match-let] and @racket[match-let*].
+  Typically, identical to Racket's @racket[match-let] and @racket[match-let*]. @seclink["values-model" #:doc '(lib "scribblings/reference/reference.scrbl")]{Multiple values} returned by an expression may be bound by prefacing multiple patterns with @racket[values]. In this case, the behavior is identical to Racket's @racket[match-let-values] and @racket[match-let*-values].
 
   @codeblock{
     (let ([[: x xs] [1 2 3]])
@@ -272,6 +287,8 @@ Many of Raqit's @seclink["Relations_and_Operators"]{relations and operators} are
     (let ([a 3]
           [b 5])
       (displayln (+ a b)))
+    (let ([(values [: x xs] y) (values [1 2 3] 5)])
+      x)
    }
 }
 
