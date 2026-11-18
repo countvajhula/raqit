@@ -6,8 +6,6 @@
          (prefix-in base: racket/base))
 
 (provide wrap-reader
-         current-syntax-introducer
-         make-intro
          make-raqit-readtable)
 
 (define (make-raqit-readtable)
@@ -81,20 +79,8 @@
     lst-stx
     lst-stx))
 
-(define current-syntax-introducer (make-parameter (λ (x) x)))
-
-(define make-intro
-  (λ () (make-syntax-introducer #t)))
-
 ;; `rd` is a thunk passed by #:wrapper1 that performs the reading
 ;; `stx?` indicates whether it's in read-syntax or read mode.
 (define (wrap-reader rd [stx? #f])
-  (define intro (make-intro))
-  (parameterize ([current-readtable (make-raqit-readtable)]
-                 [current-syntax-introducer intro])
-    (define v (rd))
-    (if stx?
-        (if (list? v)
-            (map intro v)
-            (intro v))
-        v)))
+  (parameterize ([current-readtable (make-raqit-readtable)])
+    (rd)))
