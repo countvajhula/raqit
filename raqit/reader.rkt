@@ -2,17 +2,13 @@
 
 (require (only-in racket/sequence sequence->list)
          (only-in racket/set list->set)
-         "reader-no-wrap.rkt"
          syntax/readerr
          (prefix-in base: racket/base))
 
-(provide
- (rename-out [this-read-syntax read-syntax]
-             [this-read read]
-             [this-get-info get-info])
- current-syntax-introducer
- make-intro
- make-raqit-readtable)
+(provide wrap-reader
+         current-syntax-introducer
+         make-intro
+         make-raqit-readtable)
 
 (define (make-raqit-readtable)
   (make-readtable (current-readtable)
@@ -90,14 +86,15 @@
 (define make-intro
   (λ () (make-syntax-introducer #t)))
 
-(define (wrap-reader rd)
-  (lambda args
-    (define intro (make-intro))
-    (parameterize ([current-readtable (make-raqit-readtable)]
-                   [current-syntax-introducer intro])
-      (define stx (apply rd args)) ; parametrized here
-      (intro stx))))
-
-(define this-read (wrap-reader read))
-(define this-read-syntax (wrap-reader read-syntax))
-(define this-get-info get-info)
+;; `rd` is a thunk passed by #:wrapper1 that performs the reading
+;; `stx?` indicates whether it's in read-syntax or read mode.
+(define (wrap-reader rd [stx? #f])
+  (define intro (make-intro))
+  (parameterize ([current-readtable (make-raqit-readtable)]
+                 [current-syntax-introducer intro])
+    (define v (rd))
+    (if stx?
+        (if (list? v)
+            (map intro v)
+            (intro v))
+        v)))
